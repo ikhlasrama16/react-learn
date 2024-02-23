@@ -4,7 +4,7 @@ const CardProduct = (props) =>{
   const {children} = props
 
   return(
-    <div className="w-full max-w-sm bg-blue-700 border-gray-600 border rounded-lg shadow-md">
+    <div className="w-full max-w-sm bg-blue-700 border-gray-600 border rounded-lg shadow-md mx-2 flex flex-col justify-between">
       {children}
     </div>
   )
@@ -14,7 +14,7 @@ const Header = (props) =>{
   return(
     <a href="#">
       <img 
-      className="p-8 rounded-t-lg" 
+      className="p-8 rounded-t-lg object-cover h-60 w-96" 
       src={image} 
       alt="shirt" />
     </a>
@@ -24,7 +24,7 @@ const Header = (props) =>{
 const Body = (props) =>{
   const{children, title} = props
   return(
-    <div className="px-5 pb-5">
+    <div className="px-5 pb-5 h-full">
       <a href="#">
         <h5 className="text-xl font-semibold tracking-tight text-white">{title}</h5>
         <p className="text-white text-sm">{children}</p>
