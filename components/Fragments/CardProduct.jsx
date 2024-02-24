@@ -4,7 +4,7 @@ const CardProduct = (props) =>{
   const {children} = props
 
   return(
-    <div className="w-full max-w-sm bg-blue-700 border-gray-600 border rounded-lg shadow-md mx-2 flex flex-col justify-between">
+    <div className="w-full max-w-sm bg-blue-700 border-gray-600 border rounded-lg shadow-md mx-4 my-2 flex flex-col justify-between">
       {children}
     </div>
   )
@@ -14,7 +14,7 @@ const Header = (props) =>{
   return(
     <a href="#">
       <img 
-      className="p-8 rounded-t-lg object-cover h-60 w-96" 
+      className="p-8 rounded-t-lg object-cover h-60 w-96 hover:zoom-in" 
       src={image} 
       alt="shirt" />
     </a>
@@ -34,11 +34,17 @@ const Body = (props) =>{
 }
 
 const Footer = (props) =>{
-  const {price} = props
+  const {price, handleAddtoCart, id} = props
   return(
     <div className="flex items-center justify-between px-5 pb-5">
-      <span className="flex-1 text-3xl font-bold text-white">{price}</span>
-      <Button > Add to cart</Button>
+      <span className="flex-1 text-3xl font-bold text-white">
+        {price.toLocaleString("id-ID", {style:"currency", currency:"IDR"})}
+      </span>
+      <Button 
+      variant="transition-all duration-300 ease-in-out bg-black text-white hover:bg-white hover:text-blue-600"
+      onClick={() => handleAddtoCart(id)}> 
+        Add to cart
+      </Button>
     </div>
   )
 }
