@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import CardProduct from "../../components/Fragments/CardProduct"
 import Button from "../../components/Elements/Button"
 import Counter from "../../components/Fragments/Counter"
@@ -20,9 +20,9 @@ var products = [
   },
   {
     id: 3,
-    name: "Bag",
+    name: "Backpack",
     image: "assets/images/bag-1.jpg",
-    price: 50000,
+    price: 500000,
     description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, debitis fuga! Esse delectus doloribus suscipit repellat voluptas maxime iusto ducimus qui voluptatibus repellendus molestias necessitatibus ut asperiores saepe distinctio deserunt, mollitia, quisquam aperiam quo. Soluta, dicta! Dicta impedit voluptate necessitatibus."
   },
   
@@ -33,12 +33,24 @@ const ProductsPage = () =>{
   const email = localStorage.getItem("email")
   
   const [cart, setcart] = useState([
-    {
-      name:"Shirt",
-      id:1,
-      qty:1
-    }
   ])
+
+  const[totalPrice, setTotalPrice] = useState(0)
+  
+  useEffect(()=>{
+    setcart(JSON.parse(localStorage.getItem("cart")) || [])
+  }, [])
+  
+  useEffect(()=>{
+    if(cart.length > 0){
+      const sum = cart.reduce((acc, item) =>{
+        const product = products.find(product => product.id === item.id)
+        return acc + (product.price * item.qty)
+      }, 0)
+      setTotalPrice(sum)
+      localStorage.setItem("cart", JSON.stringify(cart))
+    }
+  }, [cart])
   const handleAddtoCart = (id) =>{
 
     if(cart.find(item => item.id === id)){
@@ -101,11 +113,18 @@ const ProductsPage = () =>{
                 </tr>
               )
               })}
+              <tr className="mt-10">
+                <td colSpan={3}>
+                  <b>Total Price</b>
+                </td>
+                <td>
+                  {totalPrice.toLocaleString("id-ID", {style:"currency", currency:"idr"})}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-      
     </Fragment>
   )
 }
