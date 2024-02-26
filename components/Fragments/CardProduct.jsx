@@ -26,8 +26,8 @@ const Body = (props) =>{
   return(
     <div className="px-5 pb-5 h-full">
       <a href="#">
-        <h5 className="text-xl font-semibold tracking-tight text-white">{title}</h5>
-        <p className="text-white text-sm">{children}</p>
+        <h5 className="text-xl font-semibold tracking-tight text-white">{title.substring(0, 20)}...</h5>
+        <p className="text-white text-sm">{children.substring(0, 100)}...</p>
       </a>
     </div>
   )
@@ -38,7 +38,7 @@ const Footer = (props) =>{
   return(
     <div className="flex items-center justify-between px-5 pb-5">
       <span className="flex-1 text-3xl font-bold text-white">
-        {price.toLocaleString("id-ID", {style:"currency", currency:"IDR"})}
+        {price.toLocaleString("id-ID", {style:"currency", currency:"usd"})}
       </span>
       <Button 
       variant="transition-all duration-300 ease-in-out bg-black text-white hover:bg-white hover:text-blue-600"
