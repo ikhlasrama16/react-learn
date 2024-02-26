@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useEffect, useState, useRef } from "react"
 import CardProduct from "../../components/Fragments/CardProduct"
 import Button from "../../components/Elements/Button"
 import Counter from "../../components/Fragments/Counter"
@@ -61,10 +61,27 @@ const ProductsPage = () =>{
         qty:1
       }])
     }
+  }
 
+  const cartRef = useRef(JSON.parse(localStorage.getItem("cart")) || [])
+
+
+  const handleAddtoCartRef= (id) =>{
+    cartRef.current = [...cartRef.current, {
+      id,
+      qty:1
+    }]
+    localStorage.setItem("cart", JSON.stringify(cartRef.current))
   }
   
-  
+const totalPriceRef = useRef(null);
+useEffect(()=>{
+  if(cart.length > 0){
+    totalPriceRef.current.style.display = "table-row"
+  }else{
+    totalPriceRef.current.style.display = "none"
+  }
+}, [cart]);
   
   const handleLogout = () =>{
     localStorage.removeItem("email", "password")
@@ -109,11 +126,11 @@ const ProductsPage = () =>{
                   <td>{product.name}</td>
                   <td >{product.price.toLocaleString("id-ID", {style:"currency", currency:"idr"})}</td>
                   <td>{item.qty}</td>
-                  <td>{(product.price * item.qty).toLocaleString("id-ID", {style:"currency", currency:"idr"})}</td>
+                  <td>{(product.price * item.qty).toLocaleString("id-ID", {style:"currency", currency:"IDR", minimumFractionDigits:0})}</td>
                 </tr>
               )
               })}
-              <tr className="mt-10">
+              <tr ref={totalPriceRef}>
                 <td colSpan={3}>
                   <b>Total Price</b>
                 </td>
