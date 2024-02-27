@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getProdudcts = (callback) => {
+export const getProdudcts = (callback) => {
   axios
   .get("https://fakestoreapi.com/products")
   .then((res) => {
@@ -11,4 +11,3 @@ const getProdudcts = (callback) => {
   })
 }
 
-export default getProdudcts

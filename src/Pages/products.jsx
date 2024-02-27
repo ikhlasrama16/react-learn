@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useState, useRef } from "react"
 import CardProduct from "../../components/Fragments/CardProduct"
 import Button from "../../components/Elements/Button"
-import getProdudcts from "../services/product.services"
-import { data } from "autoprefixer"
+import {getProdudcts} from "../services/product.services"
+import {getUsername} from "../services/auth.services"
+
 
 
 // var products = [
@@ -32,19 +33,31 @@ import { data } from "autoprefixer"
 
 
 const ProductsPage = () =>{
-  const email = localStorage.getItem("email")
+  
   const [cart, setcart] = useState([])
   const[totalPrice, setTotalPrice] = useState(0)
   const[products, setProducts] = useState([])
+  const[username, setUsername] = useState([])
   
   useEffect(()=>{
     setcart(JSON.parse(localStorage.getItem("cart")) || [])
   }, [])
   
   useEffect(()=>{
+    const token = localStorage.getItem("token")
+
+    if(token === null){
+      window.location.href = "/login"
+    }else{
+      setUsername(getUsername(token)) 
+    }
+    
+  }, []);
+
+  useEffect(()=>{
     getProdudcts((data)=>{
       console.log(data)
-      setProducts(data)
+      setProducts(data) 
     })
   }, [])
 
@@ -93,13 +106,13 @@ useEffect(()=>{
 }, [cart]);
   
   const handleLogout = () =>{
-    localStorage.removeItem("email", "password")
+    localStorage.removeItem("token")
     window.location.href = "/login"
   }
   return(
     <Fragment>
       <div className="text-medium font-semibold bg-blue-600 text-white p-5 flex justify-end items-center">
-        {email}
+        {username}
         <Button variant="transition-all duration-300 ease-in-out bg-black text-white hover:bg-white hover:text-blue-600 ml-10" onClick={handleLogout} >Logout</Button>
       </div>
       <div className="flex justify-center mt-10">
