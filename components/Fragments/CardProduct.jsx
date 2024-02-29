@@ -41,7 +41,7 @@ const Footer = (props) =>{
   const dispatch = useDispatch()
   const {price, id} = props
   return(
-    <div className="flex items-center justify-between px-5 pb-5">
+    <div className="flex items-center justify-between px-5 py-5">
       <span className="flex-1 text-3xl font-bold text-white">
         {price.toLocaleString("id-ID", {style:"currency", currency:"usd"})}
       </span>

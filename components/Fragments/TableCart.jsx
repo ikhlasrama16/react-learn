@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+import { useTotalPrice, useTotalPriceDispatch } from "../../src/context/TotalPriceContext";
 
 
 
 const TableCart = (props) =>{
   const {products} = props
   const cart = useSelector((state) => state.cart.data)
-  const [totalPrice, setTotalPrice] = useState(0)
+  const { total } = useTotalPrice();
+  const dispatch = useTotalPriceDispatch();
 
   useEffect(()=>{
     if(products.length > 0 && cart.length >0){
@@ -14,7 +16,12 @@ const TableCart = (props) =>{
         const product = products.find(product => product.id === item.id)
         return acc + (product.price * item.qty)
       }, 0)
-      setTotalPrice(sum)
+      dispatch(
+        {
+          type: "UPDATE_TOTAL_PRICE",
+          payload: {total: sum}
+        }
+      )
       localStorage.setItem("cart", JSON.stringify(cart))
     }
   }, [cart, products])
@@ -59,7 +66,13 @@ const TableCart = (props) =>{
               <b>Total Price</b>
             </td>
             <td>
-              {totalPrice.toLocaleString("id-ID", {style:"currency", currency:"usd"})}
+              {total.toLocaleString(
+                "id-ID", {
+                  style:"currency",
+                  currency:"usd"
+                  }
+                )
+              }
             </td>
           </tr>
         </tbody>
